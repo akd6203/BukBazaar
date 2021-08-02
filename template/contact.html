@@ -1,0 +1,61 @@
+{% extends "header_footer.html" %}
+{% block head %}
+<style>
+    .mu-header, nav,header{
+        background-color: black !important;
+    }
+</style>
+{% endblock %}
+{% block content %}
+{% if status %}
+<script>
+    alert("{{status}}");
+    window.location.href="/";
+</script>
+{% endif %}
+<!-- Start Contact -->
+<section id="mu-contact" style="margin-top:1%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-contact-area">
+
+                    <div class="mu-heading-area">
+                        <h2 class="mu-heading-title">Drop Us A Message</h2>
+                        <span class="mu-header-dot"></span>
+                        <p>You can contact us by filling the form below. You will hear from you within 1-2 working days.</p>
+                    </div>
+
+                    <!-- Start Contact Content -->
+                    <div class="mu-contact-content">
+
+                        <div id="form-messages"></div>
+                        <form method="post" class="mu-contact-form">
+                            {% csrf_token %}
+                            <div class="form-group">                
+                                <input type="text" class="form-control" placeholder="Name" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">                
+                                <input type="email" class="form-control" placeholder="Enter Email" id="email" name="email" required>
+                            </div>              
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Message" id="message" name="message" required></textarea>
+                            </div>
+                            <button type="submit" class="mu-send-msg-btn"><span>SUBMIT</span></button>
+                        </form>
+
+                    </div>
+                    <!-- End Contact Content -->
+                    <!-- Start Google Map -->
+                    <section id="mu-google-map" class="mt-2">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d589888.4396405783!2d-82.41588603632052!3d32.866951223053896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f9f727a4ed30eb%3A0xf2139b0c5c7ae1ec!2sDooley+Branch+Rd%2C+Millen%2C+GA+30442%2C+USA!5e0!3m2!1sen!2sbd!4v1497376364225" width="100%" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    </section>
+                    <!-- End Google Map -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Contact -->
+
+{% endblock %}

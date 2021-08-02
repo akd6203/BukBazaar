@@ -1,0 +1,154 @@
+{% extends "header_footer.html" %}
+{% block head %}
+<style>
+    .mu-header, nav,header{
+        background-color: black !important;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<!-- Start Author -->
+<section id="mu-author">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" style="margin-top:40px;">
+                <div class="mu-author-area">
+                    <div class="mu-heading-area">
+                        <h2 class="mu-heading-title">About The Book</h2>
+                        <span class="mu-header-dot"></span>
+                    </div>
+                    <!-- Start Author Content -->
+                    <div class="mu-author-content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mu-author-image">
+                                    <img src="/media/{{book.cover}}" alt="Author Image">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mu-author-info">
+                                    <h3>{{book.name}}</h3>
+                                    <p>
+                                        {{book.description}}
+                                    </p>
+                                    <h6>Language: <span style="font-weight: 100;">{{book.language}}</span></h6>
+                                    <h6>Category: <span style="font-weight: 100;">{{book.category}}</span></h6>
+                                    <h6>Price: <span style="font-weight: 100;">
+                                        {% if book.price == book.discounted_price %}{%else%}
+                                        <del>&dollar;{{book.price}}</del>
+                                        {%endif%}
+                                        &dollar;{{book.discounted_price}}
+                                    </span>
+                                    {% if book.is_available == False %}
+                        <div style="margin-top:30px">
+                            <p class="badge badge-danger" style="background-color: red;">OUT OF STOCK</p>
+                        </div>
+                        {% endif %}
+                                </h6>
+                                   
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <!-- End Author Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+	<!-- Start Counter -->
+    <section id="mu-counter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mu-counter-area">
+
+                        <div class="mu-counter-block">
+                            <div class="row">
+
+                                <!-- Start Single Counter -->
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="mu-single-counter">
+                                        <i class="fa fa-files-o" aria-hidden="true"></i>
+                                        <div class="counter-value" data-count="{{book.pages}}">0</div>
+                                        <h5 class="mu-counter-name">Total Pages</h5>
+                                    </div>
+                                </div>
+                                <!-- / Single Counter -->
+
+                                <!-- Start Single Counter -->
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="mu-single-counter">
+                                        <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                        <div class="counter-value" data-count="{{book.chapters}}">0</div>
+                                        <h5 class="mu-counter-name">Chapters</h5>
+                                    </div>
+                                </div>
+                                <!-- / Single Counter -->
+
+                                <!-- Start Single Counter -->
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="mu-single-counter">
+                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                        <div class="counter-value" data-count="{{book.readers}}">0</div>
+                                        <h5 class="mu-counter-name">Active Readers</h5>
+                                    </div>
+                                </div>
+                                <!-- / Single Counter -->
+
+                                <!-- Start Single Counter -->
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="mu-single-counter">
+                                        <i class="fa fa-trophy" aria-hidden="true"></i>
+                                        <div class="counter-value" data-count="{{book.awards}}">0</div>
+                                        <h5 class="mu-counter-name">Got Awards</h5>
+                                    </div>
+                                </div>
+                                <!-- / Single Counter -->
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Counter -->
+    <section id="mu-author">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mu-author-content">
+                        <div class="colm-md-12">
+                            <h2 style="margin: 30px 30px;">About Author</h2><hr>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="/media/{{book.author.profile}}" alt="" style="height: 100px;width:100px;border-radius:50%">
+                            <h4 style="margin-top:32px">{{book.author.name}}</h4>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="/media/{{book.author.signature}}" >                             
+                        </div>
+                        <div class="col-md-6">
+                           <p style="text-align: justify;">
+                               {{book.author.description}}
+                           </p>                           
+                           <p align="right"><em>Member Since: {{book.author.added_on}}</em></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- End Author -->
+{% endblock %}
+{% block script %}
+    <!-- Counter js -->
+    <script type="text/javascript" src="/static/js/counter.js"></script>
+
+{% endblock %}

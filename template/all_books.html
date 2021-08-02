@@ -1,0 +1,75 @@
+{% extends "header_footer.html" %}
+{% block head %}
+<style>
+    .mu-header, nav,header{
+        background-color: black !important;
+    }
+    .book-section{
+        padding:18px 0px;
+        cursor: pointer;
+        background-color: 
+#fcf6f0;
+        box-sizing: border-box;
+    }
+    .book-section:hover{
+        border: 1px solid #ff871c;
+    }
+</style>
+{% endblock %}
+{% block content %}
+{% if status %}
+<script>
+    alert("{{status}}");
+    window.location.href="/";
+</script>
+{% endif %}
+<!-- Start Contact -->
+<section id="mu-contact" style="margin-top:1%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-contact-area">
+                    <div class="mu-heading-area">
+                        <h2 class="mu-heading-title">All Books ({{books|length}}) </h2>
+                        <span class="mu-header-dot"></span>
+                        <p>Here are all books, from hich you can search your favourite one!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                {% for c in books %}
+                <!-- Pricing Single Content -->
+                <div class="col-sm-6 col-md-4 ">
+                    <div class="mu-pricing-single book-section" title="{{c.description}}">
+                        <div class="mu-pricing-single-head">
+                            <p class="mu-price-tag">
+                                <img src="/media/{{c.cover}}" alt="No Image" style="height: 200px;width: 180px;">
+                            </p>
+                            <h4 style="margin:20px auto;">{{c.name}}</h4>
+                            <h5>
+                                <del>${{c.price}}</del>
+                                {{c.discounted_price}}
+                            </h5>
+                        </div>
+                        {% if c.is_available == False %}
+                        <div style="position: absolute;top:6.5%;left:-1%;transform: rotate(-45deg);">
+                            <p class="badge badge-danger" style="background-color: red;">OUT OF STOCK</p>
+                        </div>
+                        {% endif %}
+                        <div class="mu-pricing-single-footer">
+                            <a href="{% url 'single_book' id=c.id %}" class="mu-order-btn">View Details</a>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- / Pricing Single Content -->
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Contact -->
+
+{% endblock %}

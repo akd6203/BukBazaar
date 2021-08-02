@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Kindle : Home</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/icon" href="/static/images/favicon.ico"/>
+    <!-- Font Awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Slick slider -->
+    <link href="/static/css/slick.css" rel="stylesheet">
+    <!-- Theme color -->
+    <link id="switcher" href="/static/css/theme-color/default-theme.css" rel="stylesheet">
+
+    <!-- Main Style -->
+    <link href="/static/style.css" rel="stylesheet">
+
+    <!-- Fonts -->
+
+    <!-- Open Sans for body font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700,800" rel="stylesheet">
+    <!-- Lato for Title -->
+  	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> 
+ 
+ 
+	
+   {% block head %}{% endblock %}
+  </head>
+
+  <body>
+
+   	
+  	<!-- Start Header -->
+	<header id="mu-header" class="" role="banner">
+		<div class="container">
+			<nav class="navbar navbar-default mu-navbar">
+			  	<div class="container-fluid">
+				    <!-- Brand and toggle get grouped for better mobile display -->
+				    <div class="navbar-header">
+				      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				        <span class="sr-only">Toggle navigation</span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				      </button>
+
+				      <!-- Text Logo -->
+				      <a class="navbar-brand" href="{% url 'index' %}"><i class="fa fa-book" aria-hidden="true"></i> Kindle</a>
+
+				      <!-- Image Logo -->
+				      <!-- <a class="navbar-brand" href="index.html"><img src="/static/images/logo.png"></a> -->
+
+
+				    </div>
+
+				    <!-- Collect the nav links, forms, and other content for toggling -->
+				    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				      	<ul class="nav navbar-nav mu-menu navbar-right">
+					        <li><a href="{% url 'index' %}">HOME</a></li>
+					        <li><a href="{% url 'index' %}#mu-book-overview">ABOUT</a></li>
+				            <li><a href="{% url 'index' %}#mu-pricing">CATEGORIES</a></li>
+				            <li><a href="{% url 'all_books' %}">BOOKS</a></li>
+				            <li><a href="{% url 'index' %}#mu-testimonials">TESTIMONIALS</a></li>
+				            <li><a href="{% url 'contact' %}">CONTACT</a></li>
+							<li>
+								{% if user.is_superuser %}
+								<a href="/admin">
+									<i class="fa fa-user" style="font-size: 20px;"></i>
+								</a>
+								{% elif user.is_active %}
+
+								{% elif not user.is_authenticated %}
+								<a href="{% url 'login' %}">
+									<i class="fa fa-user" style="font-size: 20px;"></i>
+								</a>
+								{% endif %}
+							</li>
+				      	</ul>
+				    </div><!-- /.navbar-collapse -->
+			  	</div><!-- /.container-fluid -->
+			</nav>
+		</div>
+	</header>
+	<!-- End Header -->
+	{% block content %}{% endblock %}
+	<!-- Start footer -->
+	<footer id="mu-footer" role="contentinfo">
+		<div class="container">
+			<div class="mu-footer-area">
+				<div class="mu-social-media">
+					<a href="https://www.facebook.com/SachTechSol/" target="_blank"><i class="fa fa-facebook"></i></a>
+					<a href="https://twitter.com/sach_tech" target="_blank"><i class="fa fa-twitter"></i></a>
+					<a href="mailto:info@sachtechsolution.com" target="_blank"><i class="fa fa-google-plus"></i></a>
+					<a href="https://www.linkedin.com/company/sachtech-solution-private-limited/?originalSubdomain=in" target="_blank"><i class="fa fa-linkedin"></i></a>
+				</div>
+				<p class="mu-copyright">&copy; Copyright <a  href="/">Kindle <script>var d=new Date();document.write(d.getFullYear());</script></a>. All right reserved.</p>
+			</div>
+		</div>
+
+	</footer>
+	<!-- End footer -->
+
+	
+	
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- Bootstrap -->
+    <script src="/static/js/bootstrap.min.js"></script>
+	{% block script %}{% endblock%}
+    
+  </body>
+</html>
