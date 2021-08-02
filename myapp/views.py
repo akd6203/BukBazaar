@@ -1,7 +1,8 @@
-from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.http.response import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from myapp.models import Contact, Category,Book, user_profile
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
 def index(request):
@@ -64,7 +65,19 @@ def register(request):
     return render(request, "register.html", context)
 
 def signIn(request):
-    return render(request, "login.html")
+    context  = {}
+    if request.method=="POST":
+        email = request.POST.get('email')
+        passw = request.POST.get('password')
+        user = authenticate(username=email,password=passw) 
+        if user:
+            login(request, user)
+            if user.is_superuser:
+                return HttpResponseRedirect('/admin')
+            return HttpResponseRedirect('/dashboard')
+        else:
+            context['status'] = 'Invalid login details!'
+    return render(request, "login.html", context)
 
 def single_book(request,id):
     context={}
@@ -74,3 +87,38 @@ def single_book(request,id):
         return render(request, "single_book.html", context)
     except:
         return HttpResponse("<h1>Not Found</h1>")
+
+def dashboard(request):
+    context={}
+    try:
+        user_details = user_profile.objects.get(user__username = request.user.username)
+        context['profile'] = user_details
+    except:
+        return HttpResponse("<h1>You are not allowed here!</h1>")
+    
+    if "update_profile" in request.POST:
+        name = request.POST.get("name")
+        em = request.POST.get("email")
+        nm = request.POST.get("number")
+        ad = request.POST.get("address")
+        
+        #Update details 
+        user_details.user.first_name = name
+        user_details.user.email = em 
+        user_details.user.save()
+
+        user_details.contact_number = nm
+        user_details.address = ad
+        user_details.save()
+
+        if "profile_pic" in request.FILES:
+            pic = request.FILES.get("profile_pic")
+            user_details.profile_pic = pic 
+            user_details.save()
+            
+        context['status'] = 'Profile updated successfully!'
+    return render(request,"dashboard.html", context)
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/')
