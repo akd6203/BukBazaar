@@ -67,3 +67,14 @@ class user_profile(models.Model):
         return self.user.first_name
 
         
+class order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+    invoice_id = models.CharField(max_length=250, blank=True)
+    payer_id = models.CharField(max_length=250, blank=True,null=True)
+    ordered_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.first_name
+    

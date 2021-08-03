@@ -1,8 +1,11 @@
-from django.http.response import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-from myapp.models import Contact, Category,Book, user_profile
+from django import conf
+from django.http.response import HttpResponse, HttpResponseGone, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404,reverse
+from myapp.models import Contact, Category,Book, user_profile, order
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
+from paypal.standard.forms import PayPalPaymentsForm 
+from django.conf import settings
 
 # Create your views here.
 def index(request):
@@ -81,15 +84,39 @@ def signIn(request):
 
 def single_book(request,id):
     context={}
+
     try:
         book = Book.objects.get(id=id)
         context['book'] = book
+        if request.user.is_authenticated:
+            user = get_object_or_404(User, id=request.user.id)
+            ord = order(user=user, book=book)
+            ord.save()
+            inv = 'INV10001-{}'.format(ord.id)
+            paypal_dict = {
+            'business':settings.PAYPAL_RECEIVER_EMAIL,
+            'amount':book.discounted_price,
+            'item_name':book.name,
+            'user_id':request.user.id,
+            'invoice':inv,
+            'notify_url':'http://{}{}'.format("127.0.0.1:8000",reverse('paypal-ipn')),
+            'return_url':'http://{}{}'.format("127.0.0.1:8000",reverse('payment_done')),
+            'cancel_url':'http://{}{}'.format("127.0.0.1:8000",reverse('payment_cancel')),
+            }
+            ord.invoice_id = inv 
+            ord.save()
+            request.session['order_id'] = ord.id 
+
+            form = PayPalPaymentsForm(initial=paypal_dict)
+            context['form'] = form
         return render(request, "single_book.html", context)
     except:
         return HttpResponse("<h1>Not Found</h1>")
 
 def dashboard(request):
     context={}
+    my_orders = order.objects.filter(user__username=request.user.username, status=True).order_by('-id')
+    context['orders'] = my_orders
     try:
         user_details = user_profile.objects.get(user__username = request.user.username)
         context['profile'] = user_details
@@ -122,3 +149,20 @@ def dashboard(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+def payment_done(request):
+    pid = request.GET.get('PayerID')
+    order_id = request.session.get('order_id')
+
+    order_obj = get_object_or_404(order, id=order_id)
+    order_obj.payer_id = pid 
+    order_obj.status = True 
+    order_obj.save()
+
+    return render(request, 'payment_successfull.html')
+
+def payment_cancel(request):
+    order_id = request.session.get('order_id')
+    order_obj = get_object_or_404(order, id=order_id)
+    order_obj.delete()
+    return render(request, 'payment_failed.html')

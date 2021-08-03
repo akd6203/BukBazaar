@@ -1,5 +1,5 @@
 from django.contrib import admin
-from myapp.models import Contact, Category, Author, Book, user_profile
+from myapp.models import Contact, Category, Author, Book, user_profile, order
 
 admin.site.site_header="Kindle | Admin"
 
@@ -19,9 +19,13 @@ class BookAdmin(admin.ModelAdmin):
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ['id','name','added_on', 'updated_on']
 
+class orderAdmin(admin.ModelAdmin):
+    list_display = ['id','status','ordered_on']
+
 
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(user_profile)
+admin.site.register(order,orderAdmin)

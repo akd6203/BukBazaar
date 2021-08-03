@@ -49,8 +49,10 @@
                             </p>
                             <h4 style="margin:20px auto;">{{c.name}}</h4>
                             <h5>
+                                {% if c.price != c.discounted_price %}
                                 <del>${{c.price}}</del>
-                                {{c.discounted_price}}
+                                {% endif %}
+                                &dollar;{{c.discounted_price}}
                             </h5>
                         </div>
                         {% if c.is_available == False %}

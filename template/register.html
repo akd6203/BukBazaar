@@ -1,73 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="/static/fonts/material-icon/css/material-design-iconic-font.min.css">
-    <!-- Main css -->
-    <link rel="stylesheet" href="/static/auth/css/style.css">
-</head>
-<body>
-    {% if status %}
-        <script>
-            alert('{{status}}');
-            window.location.href="/login"
-        </script>
-    {% endif %}
-    {% if error %}
-        <script>
-            alert('{{error}}');
-        </script>
-    {% endif %}
-    <div class="main">
-        <!-- Sign up form -->
-        <section class="signup">
-            <div class="container main-container p-0">
-                <div class="signup-content">
-                    <div class="signup-form">
-                        <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" action="">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" placeholder="Your Name" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Your Email" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="pass" id="pass" placeholder="Password" required />
-                            </div>
-        
-                            <div class="form-group">
-                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="text" name="number" id="pass" placeholder="Contact Number" pattern="[0-9]{10}" title="Number must contain 10 digits only!" required />
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" id="agree-term" name="agree-term" required />
-                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
-                            </div>
-                        </form>
+{% extends "header_footer.html" %}
+{% block head %}
+<link rel="stylesheet" href="/static/fonts/material-icon/css/material-design-iconic-font.min.css">
+<!-- Main css -->
+<link rel="stylesheet" href="/static/auth/css/style.css">
+<style>
+    .mu-header, nav,header{
+        background-color: black !important;
+    }
+    .container{
+        background-color: transparent;
+        width: 90%;
+    }
+    .main .container{
+        background-color: white !important;
+        width: 60%;
+        margin-top: 150px;
+    }
+    .main{
+        padding: 0px;
+        margin: 0px;
+        margin-top:100px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+{% if status %}
+<script>
+    alert('{{status}}');
+    window.location.href="/login"
+</script>
+{% endif %}
+{% if error %}
+<script>
+    alert('{{error}}');
+</script>
+{% endif %}
+<div class="main">
+<!-- Sign up form -->
+<section class="signup">
+    <div class="container main-container p-0">
+        <div class="signup-content">
+            <div class="signup-form">
+                <h2 class="form-title">Sign up</h2>
+                <form method="POST" class="register-form" action="">
+                    <div id="msz"></div>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text" name="name" id="name" placeholder="Your Name" required />
                     </div>
-                    <div class="signup-image">
-                        <figure><img src="/static/auth/images/signup-image.jpg" alt="sing up image"></figure>
-                        <a href="{% url 'login' %}" class="signup-image-link">I am already member</a>
+                    <div class="form-group">
+                        <label for="email"><i class="zmdi zmdi-email"></i></label>
+                        <input type="email" name="email" id="email" placeholder="Your Email" required />
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="password" name="pass" id="pass" placeholder="Password" onkeyup="checkPass()" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                        <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" onkeyup="checkPass()" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="text" name="number" id="pass" placeholder="Contact Number" pattern="[0-9]{10}" title="Number must contain 10 digits only!" required />
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                    </div>
+                </form>
             </div>
-        </section>
+            <div class="signup-image">
+                <figure><img src="/static/auth/images/signup-image.jpg" alt="sing up image"></figure>
+                <a href="{% url 'login' %}" class="signup-image-link">I am already member</a>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</section>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    function checkPass(){
+        var p = $('#pass').val();
+        var cp = $('#re_pass').val();
+        if(p==cp){
+            $("#signup").attr('disabled',false).css({'background':'#6dabe4'});
+            $('#msz').html('');
+        }else{
+
+            $("#signup").attr('disabled',true).css({'background':'red'});
+            $('#msz').html("<small>Password didn't matched!</small>");
+
+        }
+    }
+</script>
+{% endblock%}

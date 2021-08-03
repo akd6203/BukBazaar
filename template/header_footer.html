@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Kindle : Home</title>
+    <title>BukBazaar : Home</title>
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/icon" href="/static/images/favicon.ico"/>
     <!-- Font Awesome -->
@@ -28,7 +28,18 @@
     <!-- Lato for Title -->
   	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> 
  
- 
+	<style>
+		.pic{
+        background-color: gray;
+        color: white;
+        display: inline-block;
+        height: 40px;width: 40px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 40px;
+		position: relative;top: -10px;
+    }
+	</style>
 	
    {% block head %}{% endblock %}
   </head>
@@ -51,7 +62,7 @@
 				      </button>
 
 				      <!-- Text Logo -->
-				      <a class="navbar-brand" href="{% url 'index' %}"><i class="fa fa-book" aria-hidden="true"></i> Kindle</a>
+				      <a class="navbar-brand" href="{% url 'index' %}"><i class="fa fa-book" aria-hidden="true"></i> BukBazaar</a>
 
 				      <!-- Image Logo -->
 				      <!-- <a class="navbar-brand" href="index.html"><img src="/static/images/logo.png"></a> -->
@@ -74,7 +85,8 @@
 									<i class="fa fa-user" style="font-size: 20px;"></i>
 								</a>
 								{% elif user.is_active %}
-
+									<a href="{% url 'dashboard'%}"><span class='pic'>{{user.first_name.0}}</span>
+									</a>
 								{% elif not user.is_authenticated %}
 								<a href="{% url 'login' %}">
 									<i class="fa fa-user" style="font-size: 20px;"></i>
@@ -99,7 +111,7 @@
 					<a href="mailto:info@sachtechsolution.com" target="_blank"><i class="fa fa-google-plus"></i></a>
 					<a href="https://www.linkedin.com/company/sachtech-solution-private-limited/?originalSubdomain=in" target="_blank"><i class="fa fa-linkedin"></i></a>
 				</div>
-				<p class="mu-copyright">&copy; Copyright <a  href="/">Kindle <script>var d=new Date();document.write(d.getFullYear());</script></a>. All right reserved.</p>
+				<p class="mu-copyright">&copy; Copyright <a  href="/">BukBazaar <script>var d=new Date();document.write(d.getFullYear());</script></a>. All right reserved.</p>
 			</div>
 		</div>
 
