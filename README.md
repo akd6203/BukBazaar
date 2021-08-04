@@ -1,1 +1,1 @@
-# Kindlw - An online book store
+# Kindle - An online book store
