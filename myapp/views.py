@@ -144,6 +144,21 @@ def dashboard(request):
             user_details.save()
             
         context['status'] = 'Profile updated successfully!'
+    
+    if "update_password" in request.POST:
+        current_password = request.POST.get("c_password")
+        new_password = request.POST.get("n_password")
+
+        login_user = User.objects.get(id=request.user.id)
+        check = login_user.check_password(current_password)
+        if check==True:
+            login_user.set_password(new_password)
+            login_user.save()
+            context['status'] = 'Password Updated Successfully!'
+            login(request, login_user)
+        else:
+            context['status'] = 'Incorrect Current Password!'
+
     return render(request,"dashboard.html", context)
 
 def user_logout(request):
